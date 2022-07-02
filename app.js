@@ -1,5 +1,4 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const expressLogger = require("express-bunyan-logger");
 const cors = require("cors");
 const router = require("./routes");
@@ -12,14 +11,7 @@ process.on("uncaughtException", (e) => {
 
 const app = express();
 
-app.use(bodyParser.json({ limit: "10mb" }));
-app.use(
-  bodyParser.urlencoded({
-    limit: "10mb",
-    extended: true,
-    parameterLimit: 50000,
-  })
-);
+app.use(express.json({ limit: "10mb" }));
 app.use(
   expressLogger({
     excludes: [
