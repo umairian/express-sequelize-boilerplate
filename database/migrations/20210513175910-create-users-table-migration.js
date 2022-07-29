@@ -11,11 +11,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      full_name: {
+      name: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
-      photo_url: {
+      email: {
         type: Sequelize.STRING,
+        allowNull: true,
+      },
+      status: {
+        type: Sequelize.ENUM("Pending", "Approved", "Rejected"),
+        allowNull: false,
+        defaultValue: "Pending",
+      },
+      archived: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,

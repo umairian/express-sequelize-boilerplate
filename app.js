@@ -12,6 +12,7 @@ process.on("uncaughtException", (e) => {
 const app = express();
 
 app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb" }));
 app.use(
   expressLogger({
     excludes: [
@@ -28,13 +29,15 @@ app.use(
   })
 );
 // app.use(expressLogger.errorLogger());
-app.use(cors()); // will configure later
+app.use(cors());
 
 // routes
-app.use("/", router);
+app.use("/api", router);
 
 // catch 404 later
-// app.use((req, res, next) => next("Not Found"));
+app.use((req, res) => {
+  return res.status(404).send("Error 404, Route not found");
+});
 
 // error handling
 app.use((err, req, res, next) => {
