@@ -4,7 +4,7 @@ A template of Node.js Web Server.
 
 ## Pre requisites
 
-- Node 14.0
+- Node 16.0
 
 ## Install dependencies
 
