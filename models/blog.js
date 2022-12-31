@@ -2,25 +2,24 @@
 const moment = require("moment");
 
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define("users", {
+  const Blog = sequelize.define("blogs", {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    name: {
+    title: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    status: {
-      type: DataTypes.ENUM("Pending", "Approved", "Rejected"),
       allowNull: false,
-      defaultValue: "Pending",
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    fk_user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     archived: {
       type: DataTypes.BOOLEAN,
@@ -37,13 +36,20 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  User.beforeCreate(async (user) => {
-    user.dataValues.createdAt = moment().unix();
-    user.dataValues.updatedAt = moment().unix();
+  Blog.beforeCreate(async (blog) => {
+    blog.dataValues.createdAt = moment().unix();
+    blog.dataValues.updatedAt = moment().unix();
   });
-  User.beforeUpdate(async (user) => {
-    user.dataValues.updatedAt = moment().unix();
+  Blog.beforeUpdate(async (blog) => {
+    blog.dataValues.updatedAt = moment().unix();
   });
 
-  return User;
+  Blog.associate = (models) => {
+    Blog.belongsTo(models.Users, {
+      foreignKey: "fk_user_id",
+      as: "user",
+    });
+  };
+
+  return Blog;
 };
