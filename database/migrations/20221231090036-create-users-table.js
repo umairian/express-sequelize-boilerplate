@@ -13,11 +13,11 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       status: {
         type: Sequelize.ENUM("Pending", "Approved", "Rejected"),
