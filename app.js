@@ -11,8 +11,20 @@ process.on("uncaughtException", (e) => {
 
 const app = express();
 
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ limit: "10mb" }));
+app.use(
+  express.json({
+    inflate: true, // Enables handling deflated (compressed) bodies; when disabled, deflated bodies are rejected.
+    limit: "10mb", // Controls the maximum request body size. Default unit is number of bytes,
+    strict: true, //	Enables only accepting arrays and objects
+  })
+);
+app.use(
+  express.urlencoded({
+    inflate: true,
+    limit: "10mb",
+    extended: true,
+  })
+);
 app.use(
   expressLogger({
     excludes: [
@@ -28,7 +40,6 @@ app.use(
     ], // remove extra details from log
   })
 );
-// app.use(expressLogger.errorLogger());
 app.use(cors());
 
 // routes

@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const chalk = require("chalk");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
 const config = require("../config");
@@ -21,10 +22,10 @@ let sequelize = new Sequelize(
 sequelize
   .authenticate()
   .then(() => {
-    console.log("Connection has been established successfully.");
+    console.log(chalk.blue("Database connection established successfully."));
   })
   .catch((err) => {
-    console.error("Unable to connect to the database:", err);
+    console.error(chalk.red("Unable to connect to the database:"), err);
   });
 
 fs.readdirSync(__dirname)
