@@ -14,7 +14,7 @@ module.exports = {
       console.log(err);
       return res
         .status(err.status || 500)
-        .message(err.message || "Something went wrong!");
+        .send(err.message || "Something went wrong!");
     }
   },
   create: async (req, res) => {
@@ -37,7 +37,7 @@ module.exports = {
       console.log(err);
       return res
         .status(err.status || 500)
-        .message(err.message || "Something went wrong!");
+        .send(err.message || "Something went wrong!");
     }
   },
 };
