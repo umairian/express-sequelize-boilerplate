@@ -43,6 +43,12 @@ var config = convict({
       default: null,
     },
   },
+  jwt_secret: {
+    doc: "Secret for JWT",
+    format: String,
+    default: "",
+    env: "JWT_SECRET",
+  },
 });
 
 // Load environment dependent configuration

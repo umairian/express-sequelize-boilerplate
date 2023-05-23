@@ -17,15 +17,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     status: {
       type: DataTypes.ENUM("Pending", "Approved", "Rejected"),
       allowNull: false,
       defaultValue: "Pending",
-    },
-    archived: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
     },
     createdAt: {
       allowNull: false,
@@ -44,13 +43,6 @@ module.exports = (sequelize, DataTypes) => {
   User.beforeUpdate(async (user) => {
     user.dataValues.updatedAt = moment().unix();
   });
-
-  User.associate = (models) => {
-    User.hasMany(models.Blogs, {
-      foreignKey: "fk_user_id",
-      as: "blogs",
-    });
-  };
 
   return User;
 };

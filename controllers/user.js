@@ -1,71 +1,50 @@
+const config = require("../config");
 const { Users } = require("../models");
+const { generateErrorInstance } = require("../utils");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
-  get: async (req, res) => {
+  login: async (req, res) => {
     try {
-      const users = await Users.findAll();
-      return res.status(200).send({ users });
-    } catch (err) {
-      console.log(err);
-      return res
-        .status(err.status || 500)
-        .send(err.message || "Something went wrong!");
-    }
-  },
-  getOne: async (req, res) => {
-    try {
-      const { user } = req;
-      return res.status(200).send({ user });
-    } catch (err) {
-      console.log(err);
-      return res
-        .status(err.status || 500)
-        .send(err.message || "Something went wrong!");
-    }
-  },
-  create: async (req, res) => {
-    try {
-      const { name, email } = req.body;
+      const { email, password } = req.body;
 
-      if (!name || !email) {
-        throw { status: 400, message: "Required fields can't be empty" };
+      if (!email || !password) {
+        throw generateErrorInstance({
+          status: 400,
+          message: "Required fields can't be empty",
+        });
       }
 
-      const createdUser = await Users.create({
-        name,
-        email,
+      let user = await Users.findOne({
+        where: {
+          email,
+        },
       });
 
-      return res.status(200).send({ user: createdUser });
-    } catch (err) {
-      console.log(err);
-      return res
-        .status(err.status || 500)
-        .send(err.message || "Something went wrong!");
-    }
-  },
-  update: async (req, res) => {
-    try {
-      const { user, body } = req;
-      const { name } = body;
-
-      if (!name) {
-        throw { status: 400, message: "Required fields can't be empty" };
+      if (!user) {
+        throw generateErrorInstance({
+          status: 404,
+          message: "User not found",
+        });
       }
 
-      await Users.update(
-        {
-          name,
-        },
-        {
-          where: {
-            id: user.id,
-          },
-          individualHooks: true,
-        }
-      );
+      const passwordMatched = await bcrypt.compare(password, user.password);
+      if (!passwordMatched) {
+        throw generateErrorInstance({
+          status: 401,
+          message: "Invalid Password",
+        });
+      }
 
-      return res.status(200).send("User updated successfully");
+      user = user.toJSON();
+      delete user.password;
+
+      const token = jwt.sign(user, config.get("jwt_secret"), {
+        expiresIn: "1d",
+      });
+
+      return res.status(200).send({ user, token });
     } catch (err) {
       console.log(err);
       return res

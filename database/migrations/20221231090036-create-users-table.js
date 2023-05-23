@@ -1,6 +1,17 @@
 "use strict";
 
+const moment = require("moment");
+const bcrypt = require("bcryptjs");
+
 const table = "users";
+
+const user = {
+  name: "Umair Syed",
+  email: "itsumairsyed@gmail.com",
+  password: bcrypt.hashSync("admin123", bcrypt.genSaltSync(12)),
+  createdAt: moment().unix(),
+  updatedAt: moment().unix(),
+};
 
 module.exports = {
   up: async function (queryInterface, Sequelize) {
@@ -19,15 +30,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       status: {
         type: Sequelize.ENUM("Pending", "Approved", "Rejected"),
         allowNull: false,
         defaultValue: "Pending",
-      },
-      archived: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
       },
       createdAt: {
         allowNull: false,
@@ -38,6 +48,8 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
     });
+
+    await queryInterface.bulkInsert(table, [user]);
   },
   down: async function (queryInterface) {
     await queryInterface.dropTable(table);
