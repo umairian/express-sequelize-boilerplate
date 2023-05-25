@@ -26,21 +26,25 @@ var config = convict({
       doc: "Database host name/IP",
       format: String,
       default: "127.0.0.1",
+      env: "DB_HOST"
     },
     name: {
       doc: "Database name",
       format: String,
       default: "database_development",
+      env: "DB_NAME"
     },
     username: {
-      doc: "db user",
+      doc: "Username of database user",
       format: String,
       default: "root",
+      env: "DB_USER"
     },
     password: {
-      doc: "db password",
+      doc: "Password of the database user",
       format: "*",
       default: null,
+      env: "DB_PASSWORD"
     },
   },
   jwt_secret: {
