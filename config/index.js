@@ -10,7 +10,7 @@ var config = convict({
   },
   ip: {
     doc: "The IP address to bind.",
-    format: "ipaddress",
+    format: String,
     default: "127.0.0.1",
     env: "IP_ADDRESS",
   },
