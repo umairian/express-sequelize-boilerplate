@@ -1,9 +1,9 @@
-const config = require("./index.js");
+const { db } = require("./index.js");
 
 module.exports = {
   dialect: "mysql",
-  database: config.get("db.name"),
-  username: config.get("db.username"),
-  password: config.get("db.password"),
-  host: config.get("db.host"),
+  database: db.name,
+  username: db.username,
+  password: db.password,
+  host: db.host,
 };

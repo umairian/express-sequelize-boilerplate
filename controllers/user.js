@@ -40,7 +40,7 @@ module.exports = {
       user = user.toJSON();
       delete user.password;
 
-      const token = jwt.sign(user, config.get("jwt_secret"), {
+      const token = jwt.sign(user, config.jwtSecret, {
         expiresIn: "1d",
       });
 
