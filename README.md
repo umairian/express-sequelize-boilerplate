@@ -70,7 +70,7 @@ npm run db:migrate:undo
 
 - Clone the repo in your local machine
 - Install dependencies by running `npm i` command and then `npm prepare`
-- Create a database by the name you specified in the `development.json` file
+- Create a `.env` file in the root folder, paste the contents of `.env.example` and modify the values as per your requirements
 - Run migrations by running `npm run db:migrate` command
 - Run the server using `npm start` or `npm run start:dev` commands
 
