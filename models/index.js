@@ -10,11 +10,11 @@ const { camelCase, upperFirst } = require("lodash");
 const db = {};
 
 let sequelize = new Sequelize(
-  config.get("db.name"),
-  config.get("db.username"),
-  config.get("db.password"),
+  config.db.name,
+  config.db.username,
+  config.db.password,
   {
-    host: config.get("db.host"),
+    host: config.db.host,
     dialect: "mysql",
   }
 );
